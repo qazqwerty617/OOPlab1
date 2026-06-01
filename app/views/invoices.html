@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}
+<h1>Неоплачені рахунки</h1><div class="card"><h3>Створити рахунок</h3><form method="post" action="/invoices"><select name="subscriber_id">{% for s in subscribers %}<option value="{{s.id}}">{{s.full_name}}</option>{% endfor %}</select><input name="amount" type="number" step="0.01" placeholder="Сума" required><input name="description" placeholder="Опис" required><button>Створити</button></form></div>
+<table><tr><th>ID</th><th>Абонент</th><th>Сума</th><th>Опис</th><th>Дія</th></tr>{% for i in invoices %}<tr><td>{{i.id}}</td><td>{{i.full_name}}</td><td>{{i.amount}}</td><td>{{i.description}}</td><td><form method="post" action="/invoices/{{i.id}}/pay"><button>Оплачено</button></form></td></tr>{% endfor %}</table>
+{% endblock %}

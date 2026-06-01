@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: phone_station_lab1_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: phone_station_lab1
+    ports:
+      - "5432:5432"
+    volumes:
+      - phone_station_lab1_data:/var/lib/postgresql/data
+
+volumes:
+  phone_station_lab1_data:

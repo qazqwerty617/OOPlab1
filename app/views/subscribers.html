@@ -1,0 +1,48 @@
+{% extends "base.html" %}{% block content %}
+<h1>Абоненти</h1>
+<div class="card">
+  <h3>Підключити абонента</h3>
+  <form method="post" action="/subscribers">
+    <input name="full_name" placeholder="ПІБ" required>
+    <input name="phone_number" placeholder="Номер" required>
+    <input name="address" placeholder="Адреса" required>
+    <button>Додати</button>
+  </form>
+</div>
+
+<table>
+  <tr>
+    <th>ID</th><th>ПІБ</th><th>Телефон</th><th>Адреса</th><th>Статус</th><th>Послуга</th><th>Оновити</th><th>Дії</th>
+  </tr>
+  {% for s in subscribers %}
+  <tr>
+    <td>{{s.id}}</td>
+    <td>{{s.full_name}}</td>
+    <td>{{s.phone_number}}</td>
+    <td>{{s.address}}</td>
+    <td>{{s.status()}}</td>
+    <td>
+      <form method="post" action="/subscribers/{{s.id}}/services">
+        <select name="service_id">
+          {% for service in services %}<option value="{{service.id}}">{{service.name}} — {{service.monthly_price}}</option>{% endfor %}
+        </select>
+        <button>Обрати</button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/subscribers/{{s.id}}/update">
+        <input name="full_name" value="{{s.full_name}}" required>
+        <input name="phone_number" value="{{s.phone_number}}" required>
+        <input name="address" value="{{s.address}}" required>
+        <label><input type="checkbox" name="is_blocked" {% if s.is_blocked %}checked{% endif %}> Заблокований</label>
+        <button>Зберегти</button>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="/subscribers/{{s.id}}/block"><button>Блокувати</button></form>
+      <form method="post" action="/subscribers/{{s.id}}/delete"><button>Видалити</button></form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
